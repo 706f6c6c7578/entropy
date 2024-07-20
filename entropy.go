@@ -29,7 +29,7 @@ func calculatePasswordEntropy(password string) float64 {
 		charsetSize += 10
 	}
 	if usedSymbols {
-		charsetSize += 32
+		charsetSize += 26
 	}
 
 	if charsetSize == 0 {
