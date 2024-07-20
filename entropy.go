@@ -49,9 +49,9 @@ func isHexString(s string) bool {
 }
 
 func printUsage() {
-	fmt.Println("Usage: go run entropy.go <password>")
-	fmt.Println("Example: go run entropy.go 'MyPassword123!'")
-	fmt.Println("For hex strings: go run entropy.go '1a2b3c4d5e6f'")
+	fmt.Println("Usage: entropy <password>")
+	fmt.Println("Example: entropy 'MyPassword123!'")
+	fmt.Println("For hex strings: entropy '1a2b3c4d5e6f'")
 }
 
 func main() {
