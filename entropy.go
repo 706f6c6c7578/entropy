@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/hex"
 	"fmt"
 	"math"
 	"os"
@@ -8,10 +9,14 @@ import (
 )
 
 func calculatePasswordEntropy(password string) float64 {
+	if isHexString(password) {
+		return float64(len(password) * 4)
+	}
+
 	lowercase := "abcdefghijklmnopqrstuvwxyz"
 	uppercase := "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 	digits := "0123456789"
-	symbols := "!@#$%^&*()_+-=[]{}|;:,.<>?"
+	symbols := "!@#$%^&*()_+-=[]{}|;:,.<>"
 
 	usedLowercase := strings.ContainsAny(password, lowercase)
 	usedUppercase := strings.ContainsAny(password, uppercase)
@@ -38,9 +43,15 @@ func calculatePasswordEntropy(password string) float64 {
 	return math.Log2(float64(charsetSize)) * float64(len(password))
 }
 
+func isHexString(s string) bool {
+	_, err := hex.DecodeString(s)
+	return err == nil && len(s)%2 == 0
+}
+
 func printUsage() {
 	fmt.Println("Usage: go run entropy.go <password>")
 	fmt.Println("Example: go run entropy.go MyPassword123!")
+	fmt.Println("For hex strings: go run entropy.go 1a2b3c4d5e6f")
 }
 
 func main() {
@@ -51,6 +62,10 @@ func main() {
 
 	password := os.Args[1]
 	entropy := calculatePasswordEntropy(password)
+	
 	fmt.Printf("Password: %s\n", password)
+	if isHexString(password) {
+		fmt.Println("Detected as hex string")
+	}
 	fmt.Printf("Entropy: %.2f bits\n", entropy)
 }
